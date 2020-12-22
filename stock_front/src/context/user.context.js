@@ -15,7 +15,13 @@ export const initialValueUser = {
     }
 };
 
-export const UserContext = React.createContext(initialValueUser);
+export const UserContext = React.createContext({
+    user: initialValueUser,
+    handleLogin: () => { },
+    isAuthenticated: false,
+    isFetching: false,
+    handleLogout: () => { }
+});
 
 export function UserContextWrapper(props) {
 

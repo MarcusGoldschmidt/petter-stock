@@ -2,45 +2,61 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 
 import { UserContext } from "./context/user.context";
+import Login from "./pages/auth/Login";
+
+function PrivateRoute({ children, ...rest }) {
+  return (
+    <UserContext.Consumer>
+      {({ isAuthenticated }) =>
+        <Route
+          {...rest}
+          render={({ location }) =>
+            isAuthenticated ? (
+              children
+            ) : (
+                <Redirect
+                  to={{
+                    pathname: "/login",
+                    state: { from: location }
+                  }}
+                />
+              )
+          }
+        />}
+
+    </UserContext.Consumer>
+  );
+}
 
 function App() {
 
   return (
-    <Router>
-      <UserContext.Consumer>
-        {value => value.name}
-      </UserContext.Consumer>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-          </ul>
-        </nav>
+    <>
+      <Router>
+        <UserContext.Consumer>
+          {value => value.name}
+        </UserContext.Consumer>
         <Switch>
-          <Route path="/about">
+          <Route path="/login">
+            <Login />
+          </Route>
+          <PrivateRoute path="/about">
             <h1>About</h1>
-          </Route>
-          <Route path="/users">
+          </PrivateRoute>
+          <PrivateRoute path="/users">
             <h1>Users</h1>
-          </Route>
-          <Route path="/">
+          </PrivateRoute>
+          <PrivateRoute path="/">
             <h1>Home</h1>
-          </Route>
+          </PrivateRoute>
         </Switch>
-      </div>
-    </Router>
+      </Router>
+    </>
   );
 }
 

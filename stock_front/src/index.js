@@ -4,8 +4,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 // Context
-
 import { UserContextWrapper } from "./context/user.context";
+
+// Style
+import 'antd/dist/antd.css';
+import './assets/sass/app.scss';
 
 ReactDOM.render(
   <React.StrictMode>

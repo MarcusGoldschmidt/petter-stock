@@ -1,0 +1,17 @@
+.col {
+    &_image {
+        padding-top: 15vh;
+
+        @media(max-width: 762px) {
+            padding-top: 0;
+        }
+    }
+
+    &_login-form {
+        padding-top: 35vh;
+
+        @media(max-width: 762px) {
+            padding-top: 0;
+        }
+    }
+}
