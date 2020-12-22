@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Context
+
+import { UserContextWrapper } from "./context/user.context";
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <UserContextWrapper>
+      <App />
+    </UserContextWrapper>
   </React.StrictMode>,
   document.getElementById('root')
 );
