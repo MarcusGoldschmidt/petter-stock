@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import useSession from '../hooks/useSession';
 import environment from "../utils/environment";
+import { useHistory } from "react-router-dom";
+
 const axiosAuth = require('axios').default;
 
 axiosAuth.defaults.baseURL = environment.API_URL;
@@ -26,8 +28,10 @@ export const UserContext = React.createContext({
 export function UserContextWrapper(props) {
 
     const [user, setUser] = useSession(initialValueUser, "applicationUser");
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
     const [isFetching, setIsFetching] = useState(false);
+
+    const history = useHistory();
 
     const login = async (email, password) => {
         try {
@@ -53,6 +57,8 @@ export function UserContextWrapper(props) {
 
         setUser(response);
         setIsAuthenticated(true);
+
+        history.push("/");
     };
 
     const handleLogout = () => {

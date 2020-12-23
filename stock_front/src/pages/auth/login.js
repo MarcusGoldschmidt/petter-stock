@@ -5,10 +5,11 @@ import "./login.scss"
 const { Title } = Typography;
 
 
-export default function Login() {
+export default function Login({handleLogin}) {
 
-    const onFinish = values => {
-        console.log('Success:', values);
+    const onFinish = async values => {
+
+        await handleLogin(values.email, values.senha)
     };
 
     const onFinishFailed = errorInfo => {
@@ -24,7 +25,7 @@ export default function Login() {
                 <Col
                     className="col_image"
                     xs={24} sm={24} md={16} lg={16} xl={16}>
-                    <img class="img-responsive" src={LoginImage} alt="stock"></img>
+                    <img className="img-responsive" src={LoginImage} alt="stock"></img>
                 </Col>
                 <Col
                     className="col_login-form"
