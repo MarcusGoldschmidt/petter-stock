@@ -8,13 +8,8 @@ const { Title } = Typography;
 export default function Login({handleLogin}) {
 
     const onFinish = async values => {
-
         await handleLogin(values.email, values.senha)
     };
-
-    const onFinishFailed = errorInfo => {
-        console.log('Failed:', errorInfo);
-    }
 
     return (
         <>
@@ -35,7 +30,6 @@ export default function Login({handleLogin}) {
                     <Form
                         name="basic"
                         onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
                     >
                         <Form.Item
                             label="Email"

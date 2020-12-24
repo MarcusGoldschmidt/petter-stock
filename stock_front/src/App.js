@@ -55,7 +55,6 @@ function App() {
                 }}
               /> : <Login handleLogin={value.handleLogin} />}
             </UserContext.Consumer>
-
           </Route>
           <PrivateRoute path="/about">
             <h1>About</h1>

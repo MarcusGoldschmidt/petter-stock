@@ -10,6 +10,21 @@ use Mix.Config
 config :stock_api,
   ecto_repos: [StockApi.Repo]
 
+config :stock_api, StockApiWeb.Gettext, default_locale: "pt_BR"
+
+# Guardian config
+config :stock_api, StockApiWeb.Guardian,
+  issuer: "petter-stock",
+  # Use `mix guardian.gen.secret` to generate one
+  secret_key: "a3V/mDp7VhjYr5pLrjyJsQ0QQRR9x7DJPESjjPnMt/q2U72H8955Jrcve+3POZqQ",
+  ttl: {1, :day}
+
+config :stock_api, StockApiWeb.GuardianRefresh,
+  issuer: "petter-stock",
+  # Use `mix guardian.gen.secret` to generate one
+  secret_key: "a3V/mDp7VhjYr5pLrjyJsQ0QQRR9x7DJPESjjPnMt/q2U72H8955Jrcve+3POZqQ",
+  ttl: {7, :day}
+
 # Configures the endpoint
 config :stock_api, StockApiWeb.Endpoint,
   url: [host: "localhost"],

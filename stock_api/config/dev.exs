@@ -3,11 +3,12 @@ use Mix.Config
 # Configure your database
 config :stock_api, StockApi.Repo,
   username: "postgres",
-  password: "postgres",
-  database: "stock_api_dev",
+  password: "123456",
+  database: "stock",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  port: 5432,
+  pool_size: 20
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

@@ -47,7 +47,7 @@ const http = {
     async get(url, data = {}) {
         try {
             const response = await axios.get(url, { params: { ...data } });
-            return response.data.data
+            return response.data
         } catch (e) {
             handlerError(e.response);
             return null;
@@ -57,7 +57,7 @@ const http = {
         try {
             const response = await axios.delete(url, { data: { id } });
 
-            return response.data.data
+            return response.data
         } catch (e) {
             handlerError(e.response);
             return null;
@@ -68,7 +68,7 @@ const http = {
         try {
             const response = await axios.put(url, data);
 
-            return response.data.data
+            return response.data
         } catch (e) {
             handlerError(e.response);
             return null;
@@ -78,7 +78,7 @@ const http = {
         try {
             const response = await axios.post(url, data);
 
-            return response.data.data
+            return response.data
         } catch (e) {
             handlerError(e.response);
             return null;

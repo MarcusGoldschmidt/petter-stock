@@ -48,5 +48,7 @@ defmodule StockApiWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+  # TODO: colocar cors em confi.exs
+  plug CORSPlug, origin: "*"
   plug StockApiWeb.Router
 end

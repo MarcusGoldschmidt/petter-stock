@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useSession from '../hooks/useSession';
 import environment from "../utils/environment";
-import { useHistory } from "react-router-dom";
+import { openNotificationWithIcon } from "../utils/notification";
 
 const axiosAuth = require('axios').default;
 
 axiosAuth.defaults.baseURL = environment.API_URL;
 
 export const initialValueUser = {
-    name: "Marcus Goldschmidt Oliveira",
+    name: "",
     email: "",
-    token: {
-        value: "",
+    tokens: {
+        token: "",
         refreshToken: "",
-        expiration: null,
     }
 };
 
@@ -28,19 +27,21 @@ export const UserContext = React.createContext({
 export function UserContextWrapper(props) {
 
     const [user, setUser] = useSession(initialValueUser, "applicationUser");
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
 
-    const history = useHistory();
+    useEffect(() => {
+        setIsAuthenticated(user.email !== "");
+    }, [user]);
 
     const login = async (email, password) => {
         try {
-            const response = await axiosAuth.post("login", {
+            const response = await axiosAuth.post("/auth/login", {
                 email,
                 password
             });
 
-            return response.data.data
+            return response.data
         } catch (e) {
             return null;
         }
@@ -52,13 +53,14 @@ export function UserContextWrapper(props) {
         setIsFetching(false);
 
         if (!response) {
+            openNotificationWithIcon("warning", "Sua conta ou senha está incorreta.")
             return
         }
 
         setUser(response);
         setIsAuthenticated(true);
 
-        history.push("/");
+        openNotificationWithIcon("success", "Login efetuado")
     };
 
     const handleLogout = () => {

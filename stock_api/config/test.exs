@@ -20,3 +20,6 @@ config :stock_api, StockApiWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+# Relax crypto strength a bit during testing
+config :bcrypt_elixir, :log_rounds, 4

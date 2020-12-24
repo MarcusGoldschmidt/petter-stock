@@ -1,6 +1,8 @@
 import Quagga from 'quagga';
 import { nanoid } from 'nanoid'
 import { useEffect, useState } from 'react';
+import { Button } from 'antd';
+import { openNotificationWithIcon } from '../utils/notification';
 
 export default function BarcodeScanner({ onRead = () => { } }) {
 
@@ -37,6 +39,10 @@ export default function BarcodeScanner({ onRead = () => { } }) {
 
     return (
         <>
+            <Button onClick={() => openNotificationWithIcon('success')}>Success</Button>
+            <Button onClick={() => openNotificationWithIcon('info')}>Info</Button>
+            <Button onClick={() => openNotificationWithIcon('warning')}>Warning</Button>
+            <Button onClick={() => openNotificationWithIcon('error')}>Error</Button>
             <div id={scannerId.toString()} className="viewport" />
         </>
     )

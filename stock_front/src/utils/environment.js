@@ -1,6 +1,6 @@
 const env = {
-    API_URL: "https://localhost:3000",
-    SOCKET_URL: "ws://localhost:3000"
+    API_URL: "http://localhost:4000/api",
+    SOCKET_URL: "ws://localhost:4000"
 }
 
 export default env
