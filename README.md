@@ -9,12 +9,15 @@ Excel probably solve this problem, but I am a developer who wants a excuse to le
 
 ## Goals
 
-- [ ] Jwt
-- [ ] Real time enter and exit products
+- [x] Jwt
+- [ ] Basic crud operations
+- [ ] Real time enter and exit products with barcode
 - [ ] Dashboard
 - [ ] Notifications about product validity
 - [ ] Multi tenants
 - [ ] Google login
+- [ ] Docker files
+- [ ] CI/CD
 ## Stack
 
 - Elixir (Phoenix Framework)
