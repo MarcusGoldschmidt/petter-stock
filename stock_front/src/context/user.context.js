@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import useSession from '../hooks/useSession';
+import useLocalStorage from '../hooks/useLocalStorage';
 import environment from "../utils/environment";
 import { openNotificationWithIcon } from "../utils/notification";
 
@@ -26,7 +26,7 @@ export const UserContext = React.createContext({
 
 export function UserContextWrapper(props) {
 
-    const [user, setUser] = useSession(initialValueUser, "applicationUser");
+    const [user, setUser] = useLocalStorage(initialValueUser, "applicationUser");
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
 
