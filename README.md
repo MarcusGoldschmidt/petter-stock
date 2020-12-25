@@ -25,3 +25,17 @@ Excel probably solve this problem, but I am a developer who wants a excuse to le
 - React
 
 Just for learning functional programing in web apps
+
+## How to setup
+
+```sh
+# in project root
+docker-compose up
+
+# in stock_api folder
+mix ecto.migrate
+mix phx.server # http://localhost:4000
+
+# in stock_front folder
+npm run start # http://localhost:3000
+```
