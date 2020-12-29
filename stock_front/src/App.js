@@ -5,34 +5,38 @@ import {
   Redirect
 } from "react-router-dom";
 import MenuWrapper from "./components/MenuWrapper";
+import { SocketContext } from "./context/socket.context";
 
 import { UserContext } from "./context/user.context";
 import Login from "./pages/auth/Login";
 import Home from "./pages/Home";
+import ProductSession from "./pages/product/ProductSession";
 
 function PrivateRoute({ children, ...rest }) {
   return (
 
     <UserContext.Consumer>
-      {({ isAuthenticated, handleLogout }) =>
-        <MenuWrapper handleLogout={handleLogout}>
-          <Route
-            {...rest}
-            render={({ location }) =>
-              isAuthenticated ? (
-                children
-              ) : (
-                  <Redirect
-                    to={{
-                      pathname: "/login",
-                      state: { from: location }
-                    }}
-                  />
-                )
-            }
-          />
-        </MenuWrapper>
-      }
+      {(context) => {
+        return (
+          <MenuWrapper handleLogout={context.handleLogout}>
+            <Route
+              {...rest}
+              render={({ location }) =>
+                context.isAuthenticated ? (
+                  children
+                ) : (
+                    <Redirect
+                      to={{
+                        pathname: "/login",
+                        state: { from: location }
+                      }}
+                    />
+                  )
+              }
+            />
+          </MenuWrapper>
+        )
+      }}
     </UserContext.Consumer>
 
   );
@@ -59,10 +63,22 @@ function App() {
           <PrivateRoute path="/about">
             <h1>About</h1>
           </PrivateRoute>
+          <PrivateRoute exact path="/produtos/adicionar">
+            <UserContext.Consumer>
+              {({ user }) =>
+                <SocketContext.Consumer>
+                  {({ socket }) => <ProductSession
+                    socket={socket}
+                    token={user.tokens.token}
+                  ></ProductSession>}
+                </SocketContext.Consumer>
+              }
+            </UserContext.Consumer>
+          </PrivateRoute>
           <PrivateRoute path="/users">
             <h1>Users</h1>
           </PrivateRoute>
-          <PrivateRoute path="/">
+          <PrivateRoute exact path="/">
             <Home></Home>
           </PrivateRoute>
         </Switch>

@@ -1,4 +1,4 @@
-defmodule StockApiWeb.Api.AuthController do
+defmodule StockApiWeb.AuthController do
   use StockApiWeb, :controller
   import Ecto.Query
 
@@ -22,6 +22,28 @@ defmodule StockApiWeb.Api.AuthController do
       {:ok, claims} ->
         {:ok, user} = GuardianRefresh.resource_from_claims(claims)
         json(conn, create_jwt_and_refresh_token(user))
+
+      {:error, _} ->
+        conn
+        |> put_status(401)
+        |> json(%{})
+    end
+  end
+
+  def check_user(conn, _params) do
+    token =
+      conn.req_headers
+      |> Enum.find_value("", fn {key, v} -> if key == "authorization", do: v end)
+      |> String.split(" ")
+      |> List.last() || ""
+
+    case Guardian.decode_and_verify(token) do
+      {:ok, claims} ->
+        json(conn, %{
+          fullName: claims["fullName"],
+          id: claims["sub"],
+          email: claims["email"]
+        })
 
       {:error, _} ->
         conn

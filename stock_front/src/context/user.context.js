@@ -21,31 +21,66 @@ export const UserContext = React.createContext({
     handleLogin: () => { },
     isAuthenticated: false,
     isFetching: false,
-    handleLogout: () => { }
+    handleLogout: () => { },
+    handleRefreshToken: () => { }
 });
+
+const login = async (email, password) => {
+    try {
+        const response = await axiosAuth.post("/auth/login", {
+            email,
+            password
+        });
+
+        return response.data
+    } catch (e) {
+        return null;
+    }
+}
+
+const refreshToken = async (refreshToken) => {
+    try {
+        const response = await axiosAuth.post("/auth/refresh-token", {
+            refreshToken
+        });
+
+        return response.data
+    } catch (e) {
+        return null;
+    }
+}
 
 export function UserContextWrapper(props) {
 
     const [user, setUser] = useLocalStorage(initialValueUser, "applicationUser");
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(!!user.email);
     const [isFetching, setIsFetching] = useState(false);
 
-    useEffect(() => {
-        setIsAuthenticated(user.email !== "");
-    }, [user]);
+    const handleRefreshToken = async () => {
+        const userResponse = await refreshToken(user.tokens.refreshToken);
 
-    const login = async (email, password) => {
-        try {
-            const response = await axiosAuth.post("/auth/login", {
-                email,
-                password
-            });
-
-            return response.data
-        } catch (e) {
-            return null;
+        if (!userResponse) {
+            setIsAuthenticated(false);
+            return;
         }
+
+        setUser(userResponse);
+        return userResponse;
     }
+
+    useEffect(() => {
+        axiosAuth
+            .post("/auth/check-user", {}, {
+                headers: {
+                    Authorization: `Bearer ${user.tokens.token}`
+                }
+            })
+            .then(() => setIsAuthenticated(true))
+            .catch(async () => {
+                await handleRefreshToken()
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleLogin = async (email, password) => {
         setIsFetching(true);
@@ -74,7 +109,8 @@ export function UserContextWrapper(props) {
             handleLogin,
             isAuthenticated,
             isFetching,
-            handleLogout
+            handleLogout,
+            handleRefreshToken
         }}>
             {props.children}
         </UserContext.Provider>

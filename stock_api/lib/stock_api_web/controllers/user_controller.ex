@@ -1,4 +1,4 @@
-defmodule StockApiWeb.Api.UserController do
+defmodule StockApiWeb.UserController do
   use StockApiWeb, :controller
   alias StockApi.{Repo, User}
   alias StockApiWeb.ResponseHelper

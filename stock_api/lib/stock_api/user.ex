@@ -39,7 +39,7 @@ defmodule StockApi.User do
       :password_confirmation
     ])
     |> validate_format(:email, ~r/@/)
-    |> validate_length(:password, min: 8)
+    |> validate_length(:password, min: 6)
     |> unique_constraint(:email)
     |> validate_confirmation(:email)
     |> validate_confirmation(:password)

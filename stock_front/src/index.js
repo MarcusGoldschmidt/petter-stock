@@ -4,16 +4,32 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 // Context
-import { UserContextWrapper } from "./context/user.context";
+import { UserContext, UserContextWrapper } from "./context/user.context";
 
 // Style
 import 'antd/dist/antd.css';
 import './assets/sass/app.scss';
+import { SocketContextWrapper } from './context/socket.context';
+
+// eslint-disable-next-line no-extend-native
+Date.prototype.addDays = function (days) {
+  var date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+}
 
 ReactDOM.render(
   <React.StrictMode>
     <UserContextWrapper>
-      <App />
+      <UserContext.Consumer>
+        {({ user }) => (<>
+          <SocketContextWrapper
+            token={user.tokens.token}
+          >
+            <App />
+          </SocketContextWrapper>
+        </>)}
+      </UserContext.Consumer>
     </UserContextWrapper>
   </React.StrictMode>,
   document.getElementById('root')

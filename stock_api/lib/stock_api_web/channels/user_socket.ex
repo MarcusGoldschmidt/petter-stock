@@ -4,6 +4,8 @@ defmodule StockApiWeb.UserSocket do
   ## Channels
   # channel "room:*", StockApiWeb.RoomChannel
 
+  channel "session:*", StockApiWeb.SessionChannel
+
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
   # verification, you can put default assigns into

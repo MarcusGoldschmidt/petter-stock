@@ -11,24 +11,32 @@ defmodule StockApiWeb.Router do
     plug :authenticate
   end
 
-  scope "/", StockApiWeb, as: :app_default do
+  scope "/", StockApiWeb do
     pipe_through :api
 
     get "/", DefaultController, :index
   end
 
-  scope "/api", StockApiWeb.Api, as: :app_api do
+  scope "/api", StockApiWeb do
     pipe_through :api
 
     post "/auth/login", AuthController, :login
     post "/auth/refresh-token", AuthController, :refresh_token
   end
 
-  scope "/api", StockApiWeb.Api, as: :app_api do
+  scope "/api", StockApiWeb do
     pipe_through :api
     pipe_through :auth
 
+    post "/auth/check-user", AuthController, :check_user
+
     resources "/users", UserController
+    resources "/orders", OrderController
+    resources "/orders/products", OrderProductController
+
+    resources "/stocks/products", ProductController
+    post "/stocks/products/image", ProductController, :image_upload
+    resources "/stocks/products/track", ProductTrackController
   end
 
   defp authenticate(conn, _) do

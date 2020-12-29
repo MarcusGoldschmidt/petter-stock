@@ -13,6 +13,7 @@ defmodule StockApi.Application do
       StockApiWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: StockApi.PubSub},
+      StockApiWeb.Presence,
       # Start the Endpoint (http/https)
       StockApiWeb.Endpoint
       # Start a worker by calling: StockApi.Worker.start_link(arg)

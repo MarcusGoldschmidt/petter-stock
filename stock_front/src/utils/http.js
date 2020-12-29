@@ -11,7 +11,9 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.put['Content-Type'] = 'application/json';
 axios.defaults.headers.delete['Content-Type'] = 'application/json';
 
-const { token, logout } = UserContext._currentValue;
+const { tokens, logout, handleRefreshToken } = UserContext._currentValue;
+
+const { token, expiration } = tokens;
 
 axios.interceptors.request.use(async (config) => {
     if (
@@ -19,14 +21,13 @@ axios.interceptors.request.use(async (config) => {
         !config.url.endsWith('refresh') ||
         !config.url.endsWith('signup')
     ) {
-        const userTokenExpiration = new Date(token.expiration);
+        const userTokenExpiration = new Date(expiration);
         const today = new Date();
         if (today > userTokenExpiration) {
-            // TODO: criar refresh token
-            // eslint-disable-next-line no-unused-vars
-            const userRefreshToken = token.userRefreshToken;
+            const newToken = (await handleRefreshToken()).token;
+            config.headers.Authorization = `Bearer ${newToken}`;
         } else {
-            const userToken = token.token;
+            const userToken = token;
             config.headers.Authorization = `Bearer ${userToken}`;
         }
     }

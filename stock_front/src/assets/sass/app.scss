@@ -5,9 +5,26 @@
 
 html,
 body {
+    width: 100%;
     height: 100%;
 }
 
 #root {
+    width: 100%;
     height: 100%;
+
+    overflow-y: hidden;
+    overflow-x: hidden;
+
+    @media(max-width: 762px) {}
+}
+
+@media(max-width: 762px) {
+    .chart-container {
+        width: 50vw !important;
+    }
+
+    .frappe-chart {
+        width: 50vw !important;
+    }
 }

@@ -1,4 +1,4 @@
-defmodule StockApiWeb.Api.UserView do
+defmodule StockApiWeb.UserView do
   use StockApiWeb, :view
 
   def render("index.json", %{users: users}) do

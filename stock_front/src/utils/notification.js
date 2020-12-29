@@ -7,8 +7,8 @@ export const notification_types = {
     ERROR: "error"
 };
 
-export const openNotificationWithIcon = (type, menssage) => {
+export const openNotificationWithIcon = (type, menssage = "Sucumba Chico") => {
     notification[type]({
-        description: menssage
+        description: menssage 
     });
 };
