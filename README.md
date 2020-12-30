@@ -5,8 +5,7 @@ Learn with simple stock
 My cousin asked me to help her with expiry dates
 of her products, so I decided to work in this project for fun.
 
-Excel probably solve this problem, but I am a developer who wants a excuse to learn new things.
-
+Excel possibly solve this problem, but I want an excuse to learn new things.
 ## Goals
 
 - [x] Jwt
